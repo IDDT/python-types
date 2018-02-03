@@ -1,0 +1,1 @@
+python3 setup.py build && cp build/lib.macosx-10.13-x86_64-3.6/t.cpython-36m-darwin.so t.so
