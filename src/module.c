@@ -2,7 +2,7 @@
 
 
 extern PyTypeObject INT8_Type;
-
+extern PyTypeObject ARRAY_INT8_Type;
 
 
 
@@ -28,6 +28,10 @@ PyInit_t(void) {
         return NULL;
     }
 
+    if (PyType_Ready(&ARRAY_INT8_Type) < 0) {
+        return NULL;
+    }
+
     m = PyModule_Create(&T_Module);
     if (m == NULL) {
         return NULL;
@@ -35,5 +39,7 @@ PyInit_t(void) {
 
     Py_INCREF(&INT8_Type);
     PyModule_AddObject(m, "int8", (PyObject *)&INT8_Type);
+    Py_INCREF(&ARRAY_INT8_Type);
+    PyModule_AddObject(m, "int8array", (PyObject *)&ARRAY_INT8_Type);
     return m;
 }

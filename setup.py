@@ -5,6 +5,7 @@ module = Extension(
     sources=[
         'src/int8_asnumber.c',
         'src/int8_type.c',
+        'src/array_int8_type.c',
         'src/module.c'
     ]
 )
