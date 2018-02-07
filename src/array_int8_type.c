@@ -10,6 +10,9 @@ typedef struct {
 
 static void
 ARRAY_INT8_dealloc(ARRAY_INT8* self) {
+    // Release memory.
+    free(self->arr);
+    // Release object.
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
@@ -43,11 +46,11 @@ ARRAY_INT8_init(ARRAY_INT8 *self, PyObject *args) {
         return -1;
     }
 
-    // Set length of the object. Also useful for sys.getsizeof().
+    // Set length of the object. Useful for sys.getsizeof().
     Py_SIZE(self) = len;
 
-
-    self->arr = malloc(len*sizeof(int8_t));
+    // Allocate memory.
+    self->arr = malloc(len * sizeof(int8_t));
     PyObject* item;
     for (Py_ssize_t i = 0; i < len; i++) {
         item = PySequence_Fast_GET_ITEM(seq, i);
