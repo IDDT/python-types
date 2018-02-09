@@ -1,8 +1,8 @@
 #include <Python.h>
 
 
-extern PyTypeObject INT8_Type;
-extern PyTypeObject ARRAY_INT8_Type;
+extern PyTypeObject I8_Type;
+extern PyTypeObject I8ARR_Type;
 
 
 
@@ -22,24 +22,24 @@ T_Module = {
 PyMODINIT_FUNC
 PyInit_t(void) {
 
+    // Basic types ready.
+    if (PyType_Ready(&I8_Type) < 0) { return NULL; }
+
+    // Arrays ready.
+    if (PyType_Ready(&I8ARR_Type) < 0) { return NULL; }
+
+    // Creating module.
     PyObject* m;
-
-    if (PyType_Ready(&INT8_Type) < 0) {
-        return NULL;
-    }
-
-    if (PyType_Ready(&ARRAY_INT8_Type) < 0) {
-        return NULL;
-    }
-
     m = PyModule_Create(&T_Module);
-    if (m == NULL) {
-        return NULL;
-    }
+    if (m == NULL) { return NULL; }
 
-    Py_INCREF(&INT8_Type);
-    PyModule_AddObject(m, "int8", (PyObject *)&INT8_Type);
-    Py_INCREF(&ARRAY_INT8_Type);
-    PyModule_AddObject(m, "int8array", (PyObject *)&ARRAY_INT8_Type);
+    // Basic types incref.
+    Py_INCREF(&I8_Type);
+    PyModule_AddObject(m, "i8", (PyObject *)&I8_Type);
+
+    // Arrays incref.
+    Py_INCREF(&I8ARR_Type);
+    PyModule_AddObject(m, "i8arr", (PyObject *)&I8ARR_Type);
+    
     return m;
 }

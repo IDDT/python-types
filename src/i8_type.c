@@ -1,23 +1,23 @@
 #include <Python.h>
-#include "int8_typedef.h"
+#include "i8_typedef.h"
 
 
-extern PyNumberMethods INT8_as_number;
+extern PyNumberMethods I8_as_number;
 
 
 
 
 static void
-INT8_dealloc(INT8* self) {
+I8_dealloc(I8* self) {
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 
 // __new__
 static PyObject *
-INT8_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    INT8 *self;
-    self = (INT8 *)type->tp_alloc(type, 0);
+I8_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
+    I8 *self;
+    self = (I8 *)type->tp_alloc(type, 0);
     if (self != NULL) {
         self->value = 0;
     }
@@ -27,7 +27,7 @@ INT8_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 
 // __init__
 static int
-INT8_init(INT8 *self, PyObject *args) {
+I8_init(I8 *self, PyObject *args) {
     if (! PyArg_ParseTuple(args, "L", &self->value)) {
         return -1;
     }
@@ -37,7 +37,7 @@ INT8_init(INT8 *self, PyObject *args) {
 
 // __repr__
 static PyObject *
-INT8_repr(INT8 *self) {
+I8_repr(I8 *self) {
     char output[5];
     sprintf(output, "%" PRId8, self->value);
     return Py_BuildValue("s", output);
@@ -46,7 +46,7 @@ INT8_repr(INT8 *self) {
 
 // __hash__
 static Py_hash_t
-INT8_hash(INT8 *self) {
+I8_hash(I8 *self) {
     Py_hash_t output = -1; // -1 on error. 
     // Following behavior is similar to python native int and float.
     if (self->value != -1) {
@@ -59,28 +59,28 @@ INT8_hash(INT8 *self) {
 
 
 PyTypeObject 
-INT8_Type = {
+I8_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "t.int8",                                   /* tp_name */
-    sizeof(INT8),                               /* tp_basicsize */
+    "t.i8",                                     /* tp_name */
+    sizeof(I8),                                 /* tp_basicsize */
     0,                                          /* tp_itemsize */
-    (destructor)INT8_dealloc,                   /* tp_dealloc */
+    (destructor)I8_dealloc,                     /* tp_dealloc */
     0,                                          /* tp_print */
     0,                                          /* tp_getattr */
     0,                                          /* tp_setattr */
     0,                                          /* tp_reserved */
-    (reprfunc)INT8_repr,                        /* tp_repr */
-    &INT8_as_number,                            /* tp_as_number */
+    (reprfunc)I8_repr,                          /* tp_repr */
+    &I8_as_number,                              /* tp_as_number */
     0,                                          /* tp_as_sequence */
     0,                                          /* tp_as_mapping */
-    (hashfunc)INT8_hash,                        /* tp_hash  */
+    (hashfunc)I8_hash,                          /* tp_hash  */
     0,                                          /* tp_call */
     0,                                          /* tp_str */
     0,                                          /* tp_getattro */
     0,                                          /* tp_setattro */
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,   /* tp_flags */
-    "tp_doc for int8",                          /* tp_doc */
+    "tp_doc for i8",                            /* tp_doc */
     0,                                          /* tp_traverse */
     0,                                          /* tp_clear */
     0,                                          /* tp_richcompare */
@@ -95,7 +95,7 @@ INT8_Type = {
     0,                                          /* tp_descr_get */
     0,                                          /* tp_descr_set */
     0,                                          /* tp_dictoffset */
-    (initproc)INT8_init,                        /* tp_init */
+    (initproc)I8_init,                          /* tp_init */
     0,                                          /* tp_alloc */
-    INT8_new,                                   /* tp_new */
+    I8_new,                                     /* tp_new */
 };

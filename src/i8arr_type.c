@@ -1,15 +1,9 @@
 #include <Python.h>
-
-
-typedef struct {
-    PyObject_VAR_HEAD // Variable length object.
-    int8_t *arr;      // Array.
-    // Use Py_SIZE(ARRAY_INT8) to set and access the length of the object. 
-} ARRAY_INT8;
+#include "i8arr_typedef.h"
 
 
 static void
-ARRAY_INT8_dealloc(ARRAY_INT8* self) {
+I8ARR_dealloc(I8ARR* self) {
     // Release memory.
     free(self->arr);
     // Release object.
@@ -19,9 +13,9 @@ ARRAY_INT8_dealloc(ARRAY_INT8* self) {
 
 // __new__
 static PyObject *
-ARRAY_INT8_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    ARRAY_INT8 *self;
-    self = (ARRAY_INT8 *)type->tp_alloc(type, 0);
+I8ARR_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
+    I8ARR *self;
+    self = (I8ARR *)type->tp_alloc(type, 0);
     if (self != NULL) {
         self->arr = 0;
     }
@@ -31,7 +25,7 @@ ARRAY_INT8_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 
 // __init__
 static int
-ARRAY_INT8_init(ARRAY_INT8 *self, PyObject *args) {
+I8ARR_init(I8ARR *self, PyObject *args) {
 
     // Parsing object.
     PyObject* obj;
@@ -68,7 +62,7 @@ ARRAY_INT8_init(ARRAY_INT8 *self, PyObject *args) {
 
 // __repr__
 static PyObject *
-ARRAY_INT8_repr(ARRAY_INT8 *self) {
+I8ARR_repr(I8ARR *self) {
 
     // Get length.
     size_t len = Py_SIZE(self);
@@ -114,24 +108,24 @@ ARRAY_INT8_repr(ARRAY_INT8 *self) {
         }
     }
 
-    strcat(output, "], int8array)");
+    strcat(output, "], i8arr)");
     return Py_BuildValue("s", output);
 }
 
 
 //
 PyTypeObject 
-ARRAY_INT8_Type = {
+I8ARR_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "t.int8array",                              /* tp_name */
-    sizeof(ARRAY_INT8),                         /* tp_basicsize */
+    "t.i8arr",                                  /* tp_name */
+    sizeof(I8ARR),                              /* tp_basicsize */
     sizeof(int8_t),                             /* tp_itemsize */
-    (destructor)ARRAY_INT8_dealloc,             /* tp_dealloc */
+    (destructor)I8ARR_dealloc,                  /* tp_dealloc */
     0,                                          /* tp_print */
     0,                                          /* tp_getattr */
     0,                                          /* tp_setattr */
     0,                                          /* tp_reserved */
-    (reprfunc)ARRAY_INT8_repr,                  /* tp_repr */
+    (reprfunc)I8ARR_repr,                       /* tp_repr */
     0,                                          /* tp_as_number */
     0,                                          /* tp_as_sequence */
     0,                                          /* tp_as_mapping */
@@ -142,7 +136,7 @@ ARRAY_INT8_Type = {
     0,                                          /* tp_setattro */
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,   /* tp_flags */
-    "tp_doc for int8",                          /* tp_doc */
+    "tp_doc for i8arr",                         /* tp_doc */
     0,                                          /* tp_traverse */
     0,                                          /* tp_clear */
     0,                                          /* tp_richcompare */
@@ -157,7 +151,7 @@ ARRAY_INT8_Type = {
     0,                                          /* tp_descr_get */
     0,                                          /* tp_descr_set */
     0,                                          /* tp_dictoffset */
-    (initproc)ARRAY_INT8_init,                  /* tp_init */
+    (initproc)I8ARR_init,                       /* tp_init */
     0,                                          /* tp_alloc */
-    ARRAY_INT8_new,                             /* tp_new */
+    I8ARR_new,                                  /* tp_new */
 };

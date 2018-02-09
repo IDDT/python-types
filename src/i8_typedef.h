@@ -5,8 +5,8 @@
 typedef struct {
     PyObject_HEAD // Don't put semicolon here.
     int8_t value; // Actual value.
-} INT8;
+} I8;
 
 
-#define INT8_check(x)  ((x)->ob_type == &INT8_Type)
-#define INT8_value(x)  (((INT8 *)(x))->value)
+#define I8_check(x)  ((x)->ob_type == &I8_Type)
+#define I8_value(x)  (((I8 *)(x))->value)
