@@ -6,7 +6,8 @@ module = Extension(
         'src/module.c',
         'src/i8_type.c',
         'src/i8_number.c',
-        'src/i8arr_type.c'
+        'src/i8arr_type.c',
+        'src/i8arr_sequence.c'
     ]
 )
 

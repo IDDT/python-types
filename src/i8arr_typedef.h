@@ -10,4 +10,5 @@ typedef struct {
 
 
 #define I8ARR_check(x)  ((x)->ob_type == &I8ARR_Type)
-#define I8ARR_array(x)  (((I8ARR *)(x))->value)
+#define I8ARR_array(x)  (((I8ARR *)(x))->arr)
+#define I8ARR_size(x) 	(Py_SIZE((I8ARR *)(x)))

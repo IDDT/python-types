@@ -1,5 +1,9 @@
-#include <Python.h>
 #include "i8arr_typedef.h"
+
+
+extern PySequenceMethods I8ARR_as_sequence;
+
+
 
 
 static void
@@ -127,7 +131,7 @@ I8ARR_Type = {
     0,                                          /* tp_reserved */
     (reprfunc)I8ARR_repr,                       /* tp_repr */
     0,                                          /* tp_as_number */
-    0,                                          /* tp_as_sequence */
+    &I8ARR_as_sequence,                         /* tp_as_sequence */
     0,                                          /* tp_as_mapping */
     0,                                          /* tp_hash  */
     0,                                          /* tp_call */
