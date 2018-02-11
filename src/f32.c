@@ -1,68 +1,43 @@
-#include "i8_typedef.h"
+#include <Python.h>
 
 
 
-extern PyNumberMethods I8_as_number;
+typedef struct {
+    PyObject_HEAD // Static value. Don't put semicolon here.
+    float value; // Actual value holder.
+} F32;
+
+PyTypeObject F32_Type;
 
 
 
+#define TP_TDEF F32
+#define TP_TYPE F32_Type
 
-static void
-tp_dealloc(I8* self) {
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+#define TP         float
+#define TP_FORMAT  "f"
 
+#define TP_NAME    "t.f32"
+#define TP_DOC     "tp_doc for f32"
 
-// __new__
-static PyObject *
-tp_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-    I8 *self;
-    self = (I8 *)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->value = 0;
-    }
-    return (PyObject *)self;
-}
+#define PY_FORMAT "f"
+#define PY_PARSER void
+
+#define TP_CHECK(x) ((x)->ob_type == &TP_TYPE)
+#define TP_VALUE(x) (((TP_TDEF *)(x))->value)
 
 
-// __init__
-static int
-tp_init(I8 *self, PyObject *args) {
-    if (! PyArg_ParseTuple(args, "L", &self->value)) {
-        return -1;
-    }
-    return 0;
-}
 
+#include "nb_as_number.h"
+#include "nb_type.h"
 
-// __repr__
-static PyObject *
-tp_repr(I8 *self) {
-    char output[5];
-    sprintf(output, "%" ITEM_PRI_FMT, self->value);
-    return Py_BuildValue("s", output);
-}
-
-
-// __hash__
-static Py_hash_t
-tp_hash(I8 *self) {
-    Py_hash_t output = -1; // -1 on error. 
-    // Following behavior is similar to python native int and float.
-    if (self->value != -1) {
-        output = self->value;
-    } else {
-        output = -2;
-    }
-    return output;
-}
 
 
 PyTypeObject 
-I8_Type = {
+F32_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     TP_NAME,                                    /* tp_name */
-    sizeof(TP_TYPEDEF),                         /* tp_basicsize */
+    sizeof(TP_TDEF),                            /* tp_basicsize */
     0,                                          /* tp_itemsize */
     (destructor)tp_dealloc,                     /* tp_dealloc */
     0,                                          /* tp_print */
@@ -70,7 +45,7 @@ I8_Type = {
     0,                                          /* tp_setattr */
     0,                                          /* tp_reserved */
     (reprfunc)tp_repr,                          /* tp_repr */
-    &I8_as_number,                              /* tp_as_number */
+    &tp_as_number,                              /* tp_as_number */
     0,                                          /* tp_as_sequence */
     0,                                          /* tp_as_mapping */
     (hashfunc)tp_hash,                          /* tp_hash  */

@@ -2,6 +2,7 @@
 
 
 extern PyTypeObject I8_Type;
+extern PyTypeObject F32_Type;
 extern PyTypeObject I8ARR_Type;
 
 
@@ -24,18 +25,25 @@ PyInit_t(void) {
 
     // Basic types ready.
     if (PyType_Ready(&I8_Type) < 0) { return NULL; }
+    if (PyType_Ready(&F32_Type) < 0) { return NULL; }
+
 
     // Arrays ready.
     if (PyType_Ready(&I8ARR_Type) < 0) { return NULL; }
+
 
     // Creating module.
     PyObject* m;
     m = PyModule_Create(&T_Module);
     if (m == NULL) { return NULL; }
 
+
     // Basic types incref.
     Py_INCREF(&I8_Type);
     PyModule_AddObject(m, "i8", (PyObject *)&I8_Type);
+    Py_INCREF(&F32_Type);
+    PyModule_AddObject(m, "f32", (PyObject *)&F32_Type);
+
 
     // Arrays incref.
     Py_INCREF(&I8ARR_Type);

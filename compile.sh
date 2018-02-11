@@ -1,1 +1,1 @@
-python3 setup.py build && cp build/lib.macosx*/t.cpython* t.so
+python3 setup.py build -f && cp build/lib.macosx*/t.cpython* t.so

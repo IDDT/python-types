@@ -4,8 +4,8 @@ module = Extension(
     't',
     sources=[
         'src/module.c',
-        'src/i8_type.c',
-        'src/i8_number.c',
+        'src/i8.c',
+        'src/f32.c',
         'src/i8arr_type.c',
         'src/i8arr_sequence.c'
     ]
